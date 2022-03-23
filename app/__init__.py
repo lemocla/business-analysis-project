@@ -23,12 +23,12 @@ def create_app(default_config=Config):
     login_manager = LoginManager(app)
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
-    mongo.init_app(app)
-    
+    # Import user loader to load user from db
     @login_manager.user_loader
     def load_user(user_id):
         return User.get(user_id)
     
+    mongo.init_app(app)
 
     # Import Blueprints and register them so they can be used
     # For exemple I have created the index.py app and registered it as follow
