@@ -20,10 +20,14 @@ def create_app(default_config=Config):
     # Pass the app to the PyMongo constructor
     # to ensure communication with the corresponding app.
     global login_manager
-    login_manager = LoginManager()
+    login_manager = LoginManager(app)
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
     mongo.init_app(app)
+    
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.get(user_id)
     
 
     # Import Blueprints and register them so they can be used
