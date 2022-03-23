@@ -7,7 +7,6 @@ from app.config import Config
 mongo = PyMongo()
 login_manager = None
 
-
 def create_app(default_config=Config):
     """
     Creates and congfigurates the app.

@@ -1,4 +1,7 @@
-import os 
+import os
+if os.path.exists("env.py"):
+    import env
+
 
 class Config:
     """
