@@ -1,4 +1,7 @@
 import os
+if os.path.exists("env.py"):
+    import env
+
 from app import login_manager
 from flask import Flask, Blueprint, render_template, flash, redirect, \
                   url_for, session, request
@@ -87,7 +90,7 @@ def register():
     form = RegisterForm()
     if request.method == "POST":
         # check if username already exists in db
-        current_user = mongo.db.users.find_one(
+        get_id = mongo.db.users.find_one(
             {"username": request.form.get("username").lower()})
 
         if current_user:
