@@ -17,11 +17,13 @@
 
 /* ------------ Navigation ------------ */
 
+a,
 a.link-text {
     text-decoration: none;
     color: var(--p-blue);
 }
 
+a,
 a.link-text:hover {
     color: var(--p-navy);
 }
