@@ -2,10 +2,12 @@ from flask import Flask
 from flask_login import LoginManager
 from flask_pymongo import PyMongo
 from app.config import Config
+import ssl
 
 # Set an instance of PyMongo for communicating with the db.
-mongo = PyMongo()
+mongo = PyMongo(ssl_cert_reqs=ssl.CERT_NONE)
 login_manager = None
+
 
 def create_app(default_config=Config):
     """
@@ -20,15 +22,15 @@ def create_app(default_config=Config):
     # Pass the app to the PyMongo constructor
     # to ensure communication with the corresponding app.
     global login_manager
-    login_manager = LoginManager(app)
+    login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
-    # Import user loader to load user from db
+    mongo.init_app(app)
     @login_manager.user_loader
     def load_user(user_id):
         return User.get(user_id)
+
     
-    mongo.init_app(app)
 
     # Import Blueprints and register them so they can be used
     # For exemple I have created the index.py app and registered it as follow

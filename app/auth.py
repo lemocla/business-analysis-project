@@ -5,11 +5,11 @@ if os.path.exists("env.py"):
     
 from flask_login import LoginManager
 from app import login_manager
-from app.config import Config
 
-from flask import Flask, Blueprint, render_template, flash, redirect, \
+
+from flask import Blueprint, session, render_template, flash, redirect, \
                   url_for, session, request, jsonify
-from flask_login import current_user, login_user, logout_user, login_required, UserMixin
+from flask_login import login_user, logout_user, UserMixin
 # from flask_wtf import FlaskForm
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -106,38 +106,14 @@ def register():
         return redirect(url_for('home.view_home'))
     return render_template("auth/register.html", form = RegisterForm(request.form))
 
-
 # A route to render the login page and authenticate u
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-    if current_user.is_authenticated:
-        return redirect(url_for('home.view_home'))
     form = LoginForm()
     if request.method == "POST":
-        # Check if username already exists in db
-        user = mongo.db.u.find_one(
-            {"username": request.form.get("username").lower()})
-  
-        if user and User.check_password(user['password'], form.password.data):
-            # make sure the password is correct
-            if check_password_hash(
-                user["password"], request.form.get("password")):
-                user_obj = User(username=user['username'])
-                login_user(user_obj)
-                session["user"] = request.form.get("username").lower()
-                flash("Welcome, {}".format(request.form.get("username")))
-                return redirect(url_for("index"))
-            else:
-                # If password is invalid
-                flash("Invalid Username and/or Password")
-                return redirect(url_for("login"))               
-        else:
-            # If username doesn't exist
-            flash("Invalid Username and/or Password")
-            return redirect(url_for("login"))
-
+        login_user(User(request.form.get("username")))
+        
     return render_template("auth/login.html", form=form)
-
 
 #A route to render logout template and remove user from session cookie  
 @auth.route("/logout", methods=["GET", "POST"])
@@ -146,7 +122,6 @@ def logout():
         logout_user()
         return redirect(url_for('home.view_home'))
     return render_template("auth/logout.html")
-
 
 # A route to render the password reset page and reset users password
 @auth.route("/reset_password", methods=["GET", "POST"])
