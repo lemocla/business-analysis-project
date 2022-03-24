@@ -168,3 +168,12 @@ Contribution will be rewarded with special participation badges and prizes.
 
 - Code to create keywords from a text is from Xu Liang.
   - [Understand TextRank for Keyword Extraction by Python](https://towardsdatascience.com/textrank-for-keyword-extraction-by-python-c0bae21bcec0)
+
+- Box-shadow styles for the authentication pages were copied from [Webfx](https://www.webfx.com/archive/blog/images/assets/cdn.sixrevisions.com/0457-01-css-box-shadow-demo/demo.html)
+
+- Authentication configuration was learned from the [Flask-Login](https://flask-login.readthedocs.io/en/latest/) documentation.
+  
+- The responsive navbar with toggle feature was copied from [Bootstrap 5](https://getbootstrap.com/docs/5.1/components/navbar/)
+
+- The fonts used in this project were copied from [Google Fonts](https://fonts.google.com/)
+
